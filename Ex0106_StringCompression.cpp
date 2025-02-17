@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cassert>
 
 using namespace std;
@@ -43,7 +43,7 @@ int main()
 
 	// char arr[] = "ababcdfdceeefda";
 	// char arr[] = "a";
-	char arr[] = "ababcdfdceeedag";
+	char arr[] = "ababcdfdceeedagsgdsgqreqgqw";
 	int n = sizeof(arr) - 1; // 마지막 안보이는 '\0' 제외
 
 	// 글자가 하나이상이라고 가정
@@ -62,12 +62,16 @@ int main()
 	for (int i = 0; i < 26; i++)
 	{
 		// 힌트: char(i + 97)
-
+        
 		// 표를 만들고 나중에 몰아서 출력하는 방법
 		// table[i] = ...
+        table[i] = Count(arr,n,char(i + 97));
 
 		// 표를 만들지 않고 직접 출력하는 방법
 		// ...
+        int count = Count(arr,n,char(i + 97)); // no hard coding!
+        if(Count(arr,n,char(i + 97)) > 0)
+            cout << char(i + 97) << count << flush;
 	}
 
 	cout << endl;
@@ -76,6 +80,7 @@ int main()
 	for (int i = 0; i < 26; i++)
 	{
 		// ...
+        if(table[i] > 0) cout << char(i + 97) << table[i];
 	}
 	cout << endl << endl;
 
@@ -97,10 +102,17 @@ int main()
 		if (arr[i] == c)
 		{
 			// TODO: ...
+            count++;
 		}
 		else
 		{
 			// TODO: ...
+            cout << count;
+            
+            c = arr[i];
+            count = 1;
+            
+            cout << c;
 		}
 	}
 
