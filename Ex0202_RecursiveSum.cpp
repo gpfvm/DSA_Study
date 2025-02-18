@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cassert>
 #include <algorithm> // swap
 
@@ -22,8 +22,12 @@ int RecurSum(int* arr, int n)
 	= ((1 + 2 + ... 8) + 9) + 10
 	= ...
 	*/
-
-	return 0; // <- TODO: 
+    
+    
+    if(n <=0)
+        return 0; // <- TODO:
+    int sum = arr[n-1] + RecurSum(arr,n-1);
+    return sum;
 }
 
 int main()
