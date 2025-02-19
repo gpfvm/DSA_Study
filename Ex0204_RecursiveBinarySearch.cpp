@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cassert>
 #include <algorithm> // swap
 
@@ -43,18 +43,21 @@ int RecurBinarySearch(int* arr, int left, int right, int x) // n 대신에 left,
 
 		if (x < arr[middle])
 		{
-			return -1; // TODO:
+            cout << "right " << right << endl;
+			return  RecurBinarySearch(arr, left, middle - 1,x);
+          
 		}
 		else if (x > arr[middle])
-		{
-			return -1; // TODO:
+		{    cout << "left " << left << endl;
+            return RecurBinarySearch(arr, middle + 1, right, x);
+           
 		}
 		else
-		{
-			return -1; // TODO:
+        {   cout << "Found " << middle << endl;
+			return middle;
 		}
 	}
-
+    cout << "Not found" << endl;
 	return -1;
 }
 
