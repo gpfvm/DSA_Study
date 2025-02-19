@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cassert>
 #include <algorithm> // swap
 #include <iomanip> // setw
@@ -16,14 +16,30 @@ int Fibonacci(int n)
 		int fn = 0;
 
 		// TODO:
-
+        int first = 0;
+        int second = 1;
+        
+        for (int i = 2; i <= n; i++)
+        {
+            fn = first + second;
+            
+            first = second;
+            second = fn;
+        }
 		return fn;
 	}
 }
 
 int RecurFibonacci(int n)
 {
-	return 0;
+    if (n == 0)
+        return 0; // F0 = 0
+    else if (n == 1)
+        return 1; // F1 = 1
+    else
+    {
+        return RecurFibonacci(n-2) + RecurFibonacci(n-1);
+    }
 }
 
 int main()
