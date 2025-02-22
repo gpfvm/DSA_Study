@@ -82,17 +82,39 @@ int MyString::Length()
 void MyString::Resize(int new_size)
 {
 	// 메모리 재할당과 원래 갖고 있던 내용 복사
+    size_ = new_size;
+    
+    char* new_str = new char[new_size];
+    
+    if(str_)
+    {
+        for (int i = 0; i < size_; i++)
+            new_str[i] = str_[i];
+            
+        delete[] str_;
+    }
+   
+    str_ = new_str;
+    
 }
 
 // 인덱스 start위치의 글자부터 num개의 글자로 새로운 문자열 만들기
 MyString MyString::Substr(int start, int num)
 {
 	// 복사할 인덱스: start, start + 1, ... , start + num - 1
-	// assert(start + num - 1 < this->size_); // 문제를 단순하게 만들기 위해 가정
+	assert(start + num - 1 < this->size_); // 문제를 단순하게 만들기 위해 가정
 
 	MyString temp;
 
 	// TODO:
+    
+    temp.Resize(num);
+    temp.str_ = new char[temp.size_];
+    
+    for (int i = 0; i < num; i ++)
+    {
+        temp.str_[i] = str_[start+i];
+    }
 
 	return temp;
 }
@@ -101,20 +123,45 @@ MyString MyString::Concat(MyString app_str)
 {
 	MyString temp;
 
-	// TODO: 
+	// TODO:
+    int new_size = size_ + app_str.size_;
+    temp.Resize(new_size);
+    temp.str_ = new char[temp.size_];
+    
+    for (int i = 0; i < temp.size_; i ++)
+    {
+        temp.str_[i] = str_[i];
+        if(i > size_ - 1)
+            temp.str_[i] = app_str.str_[i-size_];
+    }
+    
 
 	return temp;
 }
 
 MyString MyString::Insert(MyString t, int start)
 {
-	assert(start >= 0);
-	assert(start <= this->size_);
+    assert(start >= 0);
+    assert(start <= this->size_);
+    
+    MyString temp;
+    
+    // TODO:
+    temp.Resize(size_ + t.size_);
+    temp.str_ = new char[temp.size_];
+    
 
-	MyString temp;
-
-	// TODO:
-
+    for (int i = 0; i < temp.size_; i ++)
+    {
+        if(i < start)
+            temp.str_[i] = str_[i];
+        
+        else if(i >= start && i < start + t.size_)
+            temp.str_[i] = t.str_[i-start];
+        
+        else
+            temp.str_[i] = str_[i-t.size_];
+    }
 	return temp;
 }
 
