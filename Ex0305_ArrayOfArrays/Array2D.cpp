@@ -1,4 +1,4 @@
-﻿#include "Array2D.h"
+#include "Array2D.h"
 
 #include <algorithm>
 #include <cassert>
@@ -9,27 +9,62 @@ using namespace std;
 Array2D::Array2D(int num_rows, int num_cols)
 {
 	//TODO:
+    num_rows_ = num_rows;
+    num_cols_ = num_cols;
+    arrays_= new float*[num_rows];
+    
+    for(int i = 0; i < num_rows_; i++)
+    {
+        arrays_[i] = new float[num_cols_];
+    }
+    
+    for (int r = 0; r < num_rows_; r++)
+    {
+        for(int c = 0; c < num_cols_; c++)
+        {
+            arrays_[r][c] = 0.0f;
+        }
+    }
+    
 }
 
 // 복사 생성자 (b를 복사)
 Array2D::Array2D(const Array2D& b)
 {
 	//TODO:
+    num_rows_ = b.num_rows_;
+    num_cols_ = b.num_cols_;
+    
+    for(int i = 0; i < num_rows_; i++)
+    {
+        b.arrays_[i]= new float[num_cols_];
+    }
+    
+    for (int r = 0; r < num_rows_; r++)
+    {
+        for(int c = 0; c < num_cols_; c++)
+        {
+            b.arrays_[r][c] = arrays_[r][c];
+        }
+    }
 }
 
 Array2D::~Array2D()
 {
 	//TODO:
+    if(arrays_) delete[] arrays_;
 }
 
 void Array2D::SetValue(int row, int col, float value)
 {
 	// TODO:
+   
+    arrays_[row][col] = value;
 }
 
 float Array2D::GetValue(int row, int col) const // 맨 뒤의 const는 함수 안에서 멤버 변수의 값을 바꾸지 않겠다는 의미
 {
-	return 0.0f; // TODO:
+    return arrays_[row][col];
 }
 
 Array2D Array2D::Transpose()
