@@ -52,7 +52,14 @@ Array2D::Array2D(const Array2D& b)
 Array2D::~Array2D()
 {
 	//TODO:
-    if(arrays_) delete[] arrays_;
+    if(arrays_)
+    {
+        for (int i = 0; i < num_rows_; i++)
+            delete[] arrays_[i];
+        delete[] arrays_;
+        
+    }
+   
 }
 
 void Array2D::SetValue(int row, int col, float value)
