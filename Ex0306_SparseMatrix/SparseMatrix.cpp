@@ -11,10 +11,10 @@ SparseMatrix::SparseMatrix(int num_rows, int num_cols, int capacity)
 	// TODO:
     terms_ = new MatrixTerm[capacity];
     
-    int num_rows_ = num_rows; // 최대 rows 갯수
-    int num_cols_ = num_cols; // 최대 columns 갯수
-    int capacity_ = capacity;
-    int num_terms_ = 0;
+    num_rows_ = num_rows;
+    num_cols_ = num_cols;
+    capacity_ = capacity;
+    num_terms_  = 0;
     
 }
 
@@ -22,32 +22,37 @@ SparseMatrix::SparseMatrix(int num_rows, int num_cols, int capacity)
 SparseMatrix::SparseMatrix(const SparseMatrix& b)
 {
 	// TODO:
-    if(b.capacity_ >0)
+    if(b.num_terms_ != 0)
     {
-        terms_ = new MatrixTerm[b.capacity_];
+        num_rows_ = b.num_rows_;
+        num_cols_ = b.num_cols_;
+        capacity_ = b.capacity_;
+        num_terms_  = b.num_terms_;
         
-        int num_rows_ = b.num_rows_; // 최대 rows 갯수
-        int num_cols_ = b.num_cols_; // 최대 columns 갯수
-        int capacity_ = b.capacity_;
-        int num_terms_ = 0;
-        
-        memcpy(terms_,b.terms_,sizeof(MatrixTerm) * num_terms_);
+        memcpy(b.terms_,terms_,sizeof(MatrixTerm) * num_terms_);
     }
+    
+    
 }
 
 SparseMatrix::~SparseMatrix()
 {
 	// TODO:
-    if(terms_) delete[] terms_;
+    if(terms_) delete [] terms_;
 }
 
 void SparseMatrix::SetValue(int row, int col, float value)
 {
-	if (value == 0.0f) return; // value가 0이 아닌 term만 저장
-	// TODO:
+    if (value == 0.0f) return; // value가 0이 아닌 term만 저장
+    
+    // TODO:
+    
     int key = col + num_cols_ * row;
     int i = 0;
-    for(; i < capacity_; i++)
+    
+    // Finding break point.
+    
+    for(; i < num_terms_; i++)
     {
         int key_i = terms_[i].col + num_cols_ * terms_[i].row;
         if(key_i == key)
@@ -56,18 +61,31 @@ void SparseMatrix::SetValue(int row, int col, float value)
             terms_[i].col = col;
             terms_[i].value = value;
         }
-        else if (key_i > i)
+        else if(key_i > key)
             break;
     }
     
+    num_terms_++;
     
-       
-
+    for(int j = num_terms_-1; j > i; j--)
+        terms_[j] = terms_[j-1];
+        
+    terms_[i].row = row;
+    terms_[i].col = col;
+    terms_[i].value = value;
 }
 
 float SparseMatrix::GetValue(int row, int col) const // 맨 뒤의 const는 함수 안에서 멤버 변수의 값을 바꾸지 않겠다는 의미
 {
 	// TODO: key = col + num_cols * row;
+    int key = col + num_cols_ * row;
+    
+    for(int i = 0; i < num_terms_; i ++)
+    {
+        int key_i = terms_[i].col + num_cols_ * terms_[i].row;
+        if(key_i == key)
+            return terms_[i].value;
+    }
 	return 0.0f;
 }
 
@@ -77,7 +95,15 @@ SparseMatrix SparseMatrix::Transpose()
 
 	// TODO:
 
-	return temp;
+    for(int i = 0; i < num_terms_; i++)
+    {
+        temp.terms_[i].col = terms_[i].row;
+        temp.terms_[i].row = terms_[i].col;
+        temp.terms_[i].value = terms_[i].value;
+        temp.num_terms_++;
+    }
+
+    return temp;
 }
 
 void SparseMatrix::PrintTerms()
