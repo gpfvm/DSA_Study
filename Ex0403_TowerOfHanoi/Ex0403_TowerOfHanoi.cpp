@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 
 #include "../shared/Stack.h"
 
@@ -28,6 +28,7 @@ void MoveDisk(int from, int to)
 
 	auto disk = tower[from].Top();
 
+    
 	// 받을 타워가 비어 있으면 뭐든지 받을 수 있음
 	// 알파벳 순서여야 받을 수 있음 (역순 X)
 	if (!tower[to].IsEmpty() && tower[to].Top() > disk)
@@ -46,6 +47,13 @@ void MoveDisk(int from, int to)
 void RecurMoveDisks(int n, int from, int temp, int to)
 {
 	// TODO:
+    if(n == 0) return;
+    
+    RecurMoveDisks(n-1, from, to,temp);
+    
+    MoveDisk(from,to);
+    
+    RecurMoveDisks(n-1, temp, from,to);
 }
 
 int main()
