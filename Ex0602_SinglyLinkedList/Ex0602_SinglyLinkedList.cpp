@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 
 #include "../shared/SinglyLinkedList.h"
 
@@ -8,26 +8,26 @@ int main()
 {
 	SinglyLinkedList<int> list;
 
-	list.SetPrintDebug(false);
+	list.SetPrintDebug(true);
 
 	list.PushFront(3);
-	list.PushBack(4);
-	list.PushFront(2);
-	list.PushFront(1);
-	list.PushBack(5);
+    list.PushBack(4);
+    list.PushFront(2);
+    list.PushFront(1);
+    list.PushBack(5);
 
 	list.Print();
 
 	// copy constructor
 	{
 		SinglyLinkedList<int> list2 = list; // copy constructor
-		list2.SetPrintDebug(false);
+		list2.SetPrintDebug(true);
 		list2.Print();
 	}
 
 	list.Reverse();
 	list.Print();
-
+/*
 	SinglyLinkedList<int>::Node* temp = list.Find(3);
 	list.InsertBack(temp, 1000);
 	list.Print();
@@ -51,6 +51,6 @@ int main()
 	}
 
 	// Edge case 테스트 주의
-
+*/
 	return 0;
 }
