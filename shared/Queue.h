@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <cassert>
 #include <iostream>
@@ -52,20 +52,20 @@ public:
 		// 하나하나 세는 방법 보다는 경우를 따져서 바로 계산하는 것이 빠릅니다.
 
 		// if-else-if-else로 구현하는 경우
-		//if (...)
-		//	return ...;
-		//else if (...)
-		//	return ...;
-		//else
-		//	return 0;
+        if (front_ == rear_)
+            return 0;
+        else if (front_ < rear_)
+            return rear_ - front_;
+		else
+            return capacity_ - (front_ - rear_);
 
 		// 또는 if-else 하나로도 구현 가능합니다.
-		// if (...)
-		//	  return ...;
-		// else
-		//    return ...;
+        //if (front_ > rear_)
+        //    return capacity_ - (front_ - rear_);
+        // else
+		//   return rear_ - front_;
 
-		return 0; // TODO: 임시
+		//return 0; // TODO: 임시
 	}
 
 	void Resize() // 2배씩 증가
@@ -79,21 +79,42 @@ public:
 
 		// TODO: 하나하나 복사하는 방식은 쉽게 구현할 수 있습니다. 
 		//       (도전) 경우를 나눠서 memcpy()로 블럭 단위로 복사하면 더 효율적입니다.
-	}
+        
+        T* new_queue_ = new T[capacity_ * 2];
+        int start = (front_ +1) % capacity_;
+        
+        if(start < 2)
+            memcpy(new_queue_ + start,queue_ + start,sizeof(T) * (capacity_-1));
+        else
+        {
+            memcpy(new_queue_ + 1, queue_ + start, sizeof(T) * (capacity_- start));
+            memcpy(new_queue_ + (capacity_- start +1), queue_, sizeof(T) * (rear_ +1));
 
+        }
+        
+        delete[] queue_;
+        queue_ = new_queue_;
+        rear_ = capacity_-1;
+        front_ = 0;
+        capacity_ = capacity_ * 2;
+
+    }
 	void Enqueue(const T& item) // 맨 뒤에 추가, Push()
 	{
 		if (IsFull())
 			Resize();
 
 		// TODO:
+        rear_ = (rear_ +1) % capacity_;
+        queue_[rear_] = item;
 	}
 
 	void Dequeue() // 큐의 첫 요소 삭제, Pop()
 	{
 		assert(!IsEmpty());
 
-		// TODO: 
+		// TODO:
+        front_ += 1;
 	}
 
 	void Print()
@@ -136,7 +157,7 @@ public:
 
 			// 저장된 내용물
 			for (int i = front_ + 1; i <= rear_; i++)
-				cout << setw(2) << queue_[i] << " ";
+				cout << setw(2)<< queue_[i] << " ";
 
 			// rear 뒤 사용하지 않은 공간
 			for (int i = rear_ + 1; i < capacity_; i++)

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Queue.h"
 
@@ -35,6 +35,9 @@ public:
 			Base::Resize();
 
 		// TODO:
+        Base::queue_[Base::front_] = item;
+        Base::front_ = (Base::front_ -1 + Base::capacity_) % Base:: capacity_;
+                
 	}
 
 	void PushBack(const T& item)
@@ -52,8 +55,11 @@ public:
 		assert(!Base::IsEmpty());
 
 		// TODO:
+        Base::rear_ = (Base::rear_-1 + Base::capacity_) % Base::capacity_;
+
 	}
 
 private:
 	// Queue와 동일
+    int& rear_ = Base::rear_;
 };
