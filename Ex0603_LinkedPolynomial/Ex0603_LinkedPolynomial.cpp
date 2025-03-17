@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "../shared/SinglyLinkedList.h"
 
 using namespace std;
@@ -17,6 +17,11 @@ public:
 	void NewTerm(float coef, int exp)
 	{
 		// TODO:
+        Term term_;
+        term_.coef = coef;
+        term_.exp = exp;
+        
+        PushBack(term_);
 	}
 
 	float Eval(float x)
@@ -24,22 +29,83 @@ public:
 		float temp = 0.0f;
 
 		// TODO:
+        Node* current = this->first_;
+        while(current)
+        {
+            float coef = current->item.coef;
+            int exp = current->item.exp;
+            
+            if(exp == 0)
+                temp += 1.0;
+            else
+                temp += coef * pow(x,exp);
+            
+            current = current->next;
+        }
 
 		return temp;
 	}
 
 	LinkedPolynomial Add(const LinkedPolynomial& poly)
-	{
-		// this와 poly의 terms_가 exp의 오름차순으로 정렬되어 있다고 가정
-		// 하나의 다항식 안에 exp가 중복되는 term이 없다라고 가정 (한 exp는 하나의 term만 존재)
-
-		LinkedPolynomial temp;
-
-		Node* i = this->first_;
-		Node* j = poly.first_;
-
-		// TODO:
-
+    {
+        // this와 poly의 terms_가 exp의 오름차순으로 정렬되어 있다고 가정
+        // 하나의 다항식 안에 exp가 중복되는 term이 없다라고 가정 (한 exp는 하나의 term만 존재)
+        
+        LinkedPolynomial temp;
+        
+        Node* i = this->first_;
+        Node* j = poly.first_;
+        
+        // TODO:
+        
+        
+        while(i&&j)
+        {
+            if(i->item.exp < j->item.exp)
+            {
+                temp.PushBack(i->item);
+                i = i->next;
+            }
+            else if (i->item.exp > j->item.exp)
+            {
+                temp.PushBack(j->item);
+                j = j->next;
+            }
+            else
+            {
+              
+                float sum = i->item.coef + j->item.coef;
+                temp.NewTerm(sum, i->item.exp);
+                i = i->next;
+                j = j->next;
+            }
+        }
+        
+        /*
+        if(i)
+        {
+            while(i)
+            {
+                temp.PushBack(i->item);
+                i = i->next;
+            }
+        }
+        
+        if(j)
+        {
+            while(j)
+            {
+                temp.PushBack(j->item);
+                j = j->next;
+            }
+        }
+        */
+        for(;i;i = i->next)
+            temp.PushBack(i->item);
+        for(;j;j = j->next)
+            temp.PushBack(j->item);
+        
+        
 		return temp;
 	}
 
@@ -48,6 +114,24 @@ public:
 		bool is_first = true; // 더하기 출력시 확인용
 
 		// TODO:
+        Node* current = this->first_;
+        while(current)
+        {
+            
+            float coef = current->item.coef;
+            int exp = current->item.exp;
+            
+            if(!is_first)
+                cout << " + ";
+            else
+                is_first = false;
+            if(exp == 0)
+                cout << 1;
+            else
+                cout << coef << "*" << "x^" << exp;
+            current = current->next;
+        }
+        
 
 		cout << endl;
 	}
