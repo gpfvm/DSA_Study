@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -71,9 +71,18 @@ public:
 
 	int Sum(Node* node)
 	{
-		return 0; // TODO:
-	}
-
+        //return 0; // TODO:
+        if(node)
+        {
+            if(node->left || node->right)
+                return node->item + Sum(node->right) + Sum(node->left);
+            else
+                return node->item;
+        }
+        else
+            return 0;
+    }
+       
 	int Height()
 	{
 		return Height(root_);
@@ -81,7 +90,16 @@ public:
 
 	int Height(Node* node)
 	{
-		return 0; // TODO:
+		//return 0; // TODO:
+        if(node){
+            if(node->right || node->left)
+                return 1 + std::max(Height(node->right),Height(node->left));
+            else
+                return 1;
+        }
+        else
+            return 0;
+        
 	}
 
 	~BinaryTree()
@@ -94,6 +112,11 @@ public:
 		if (node)
 		{
 			// TODO: 힌트 Post-order
+            if(node->left)
+                DeleteTree(node->left);
+            if(node->right)
+                DeleteTree(node->right);
+            delete node;
 		}
 	}
 
@@ -101,18 +124,34 @@ public:
 	void Preorder(Node* node)
 	{
 		// TODO:
+        Visit(node);
+        if(node->left)
+            Preorder(node->left);
+        if(node->right)
+            Preorder(node->right);
+
 	};
 
 	void Inorder() { Inorder(root_); }
 	void Inorder(Node* node)
 	{
 		// TODO:
+        if(node->left)
+            Inorder(node->left);
+        Visit(node);
+        if(node->right)
+            Inorder(node->right);
 	}
 
 	void Postorder() { Postorder(root_); }
 	void Postorder(Node* node)
 	{
 		// TODO:
+        if(node->left)
+            Postorder(node->left);
+        if(node->right)
+            Postorder(node->right);
+        Visit(node);
 	}
 
 	void LevelOrder()
@@ -123,6 +162,15 @@ public:
 		{
 			Visit(current);
 			// TODO:
+            if(current->left)
+                q.Enqueue(current->left);
+            if(current->right)
+                q.Enqueue(current->right);
+            if(q.IsEmpty())
+                return;
+            current = q.Front();
+            q.Dequeue();
+
 		}
 	}
 

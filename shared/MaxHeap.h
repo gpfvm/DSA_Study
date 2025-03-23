@@ -102,7 +102,7 @@ public:
 			// TODO:
 
 			// 자식 값을 부모 위치로 복사, 
-			// TODO:
+			// TOD:
 
 			//cout << "Current = " << current << ", child = " << child << endl;
 			//Print();

@@ -52,12 +52,12 @@ public:
 		// 하나하나 세는 방법 보다는 경우를 따져서 바로 계산하는 것이 빠릅니다.
 
 		// if-else-if-else로 구현하는 경우
-        if (front_ == rear_)
-            return 0;
-        else if (front_ < rear_)
+        if (front_ < rear_)
             return rear_ - front_;
+        else if(front_ > rear_)
+            capacity_ - (front_ - rear_);
 		else
-            return capacity_ - (front_ - rear_);
+            return 0;
 
 		// 또는 if-else 하나로도 구현 가능합니다.
         //if (front_ > rear_)
@@ -81,6 +81,14 @@ public:
 		//       (도전) 경우를 나눠서 memcpy()로 블럭 단위로 복사하면 더 효율적입니다.
         
         T* new_queue_ = new T[capacity_ * 2];
+        
+        int count = 1;
+        for(int i = (front_ +1) % capacity_; i != (rear_ +1) % capacity_; i = (i+1) % capacity_)
+        {
+            new_queue_[count] = queue_[i];
+            count ++;
+        }
+        /*
         int start = (front_ +1) % capacity_;
         
         if(start < 2)
@@ -91,12 +99,12 @@ public:
             memcpy(new_queue_ + (capacity_- start +1), queue_, sizeof(T) * (rear_ +1));
 
         }
-        
+         */
+        front_ = 0;
+        rear_ = capacity_-1;
+        capacity_ = capacity_ * 2;
         delete[] queue_;
         queue_ = new_queue_;
-        rear_ = capacity_-1;
-        front_ = 0;
-        capacity_ = capacity_ * 2;
 
     }
 	void Enqueue(const T& item) // 맨 뒤에 추가, Push()
@@ -114,7 +122,7 @@ public:
 		assert(!IsEmpty());
 
 		// TODO:
-        front_ += 1;
+        front_ = (front_ + 1) % capacity_;
 	}
 
 	void Print()

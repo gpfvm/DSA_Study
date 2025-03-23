@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 
 #include "../shared/BinaryTree.h"
 
@@ -61,7 +61,7 @@ int main()
 	cout << "LevelOrder" << endl; // 6 2 5 1 4 3
 	tree.LevelOrder();
 	cout << endl;
-
+    /*
 	cout << "Iterative Preorder" << endl; // 6 2 1 3 5 4
 	tree.IterPreorder();
 	cout << endl;
@@ -81,6 +81,6 @@ int main()
 	//delete n4;
 	//delete n5;
 	//delete n6;
-
+*/
 	return 0;
 }
