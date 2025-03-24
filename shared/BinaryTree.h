@@ -184,6 +184,15 @@ public:
 		while (!s.IsEmpty())
 		{
 			// TODO:
+            Node* current = s.Top();
+            s.Pop();
+            
+            Visit(current);
+            if(current->right)
+                s.Push(current->right);
+            if(current->left)
+                s.Push(current->left);
+            
 		}
 	}
 
@@ -197,6 +206,8 @@ public:
 		while (current || !s.IsEmpty())
 		{
 			// TODO:
+           
+           
 		}
 	}
 
