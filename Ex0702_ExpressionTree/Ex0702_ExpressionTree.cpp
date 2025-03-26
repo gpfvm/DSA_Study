@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 
 #include "../shared/Stack.h"
 #include "../shared/Queue.h"
@@ -32,17 +32,45 @@ public:
 	int Evaluate(Node* node)
 	{
 		// TODO: 트리에 저장된 수식의 결과값을 계산
-		return 0;
+        if(node->item >= '0' && node->item <= '9')
+            return node->item - '0';
+		
+        if(node->item == '+')
+            return Evaluate(node->left) + Evaluate(node->right);
+        else if(node->item == '-')
+            return Evaluate(node->left) - Evaluate(node->right);
+        else if(node->item == '*')
+            return Evaluate(node->left) * Evaluate(node->right);
+        else
+            return Evaluate(node->left) / Evaluate(node->right);
 	}
 
 	void Infix() { Infix(root_); cout << endl; }
 	void Infix(Node* node) {
 		// TODO: 수식을 Infix 형식으로 출력 (괄호 포함)
+        if(!IsDigit(node->item))
+        {
+            cout << '(';
+            Infix(node->left);
+            cout << node->item;
+            Infix(node->right);
+            cout << ')';
+        }
+        else
+            cout << node->item;
+               
 	}
 
 	void Postfix() { Postfix(root_);  cout << endl; }
 	void Postfix(Node* node) {
 		// TODO: 수식을 Postfix 형식으로 출력
+        if(node)
+        {
+            Postfix(node->left);
+            Postfix(node->right);
+            cout << node->item;
+        }
+      
 	}
 
 	// Infix -> postfix -> expression tree
