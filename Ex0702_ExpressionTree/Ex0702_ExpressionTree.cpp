@@ -99,11 +99,22 @@ public:
 			if (c >= '0' && c <= '9')
 			{
 				// TODO:
+                Node* node = new Node;
+                node->item = c;
+                s.Push(node);
 			}
 			else
 			{
 				// TODO:
+                Node* node = new Node;
+                node->item = c;
+                node->right = s.Top();
+                s.Pop();
+                node->left = s.Top();
+                s.Pop();
+                s.Push(node);
 			}
+    
 		}
 
 		root_ = s.Top();
