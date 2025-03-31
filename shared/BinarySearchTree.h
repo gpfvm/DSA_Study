@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <iomanip>
 #include <cassert>
@@ -94,6 +94,14 @@ public:
 		// 힌트: RecurGet()
 
 		// TODO:
+        if (!node) return new Node{item,nullptr,nullptr};
+        
+        if (item.key < node->item.key)
+            node->left = Insert(node->left,item);
+        if (item.key > node->item.key)
+            node->right = Insert(node->right,item);
+        if  (item.key == node->item.key)
+            node->item = item;
 
 		return node;
 	}
@@ -129,6 +137,23 @@ public:
 		else
 		{
 			// TODO:
+            if(!node->left)
+            {
+                Node* temp = node->right;
+                delete node;
+                return temp;
+            }
+            else if(!node->right)
+            {
+                Node* temp = node->left;
+                delete node;
+                return temp;
+            }
+            
+            Node* temp = MinKeyLeft(node->right);
+            node->item = temp->item;
+            node->right = Remove(node->right, node->item.key);
+        
 		}
 
 		return node;
