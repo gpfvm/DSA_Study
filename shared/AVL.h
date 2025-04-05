@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "BinarySearchTree.h"
 
@@ -37,15 +37,19 @@ public:
 	Node* RotateLeft(Node* parent)
 	{
 		// TODO:
-
-		return nullptr;
+        Node* temp = parent->right;
+        parent->right = temp->left;
+        temp->left = parent;
+        return temp;
 	}
 
 	Node* RotateRight(Node* parent)
 	{
 		// TODO:
-
-		return nullptr;
+        Node* temp = parent->left;
+        parent->left = temp->right;
+        temp->right = parent;
+		return temp;
 	}
 
 	void Insert(const Item& item)
@@ -75,24 +79,29 @@ public:
 		// balance가 0, 1, -1 이면 조절할 필요가 없다고 판단
 
 		// LL -> Right Rotation
-		//if (balance > 1 && Balance(node->left) >= 0)
+		if (balance > 1 && Balance(node->left) >= 0)
 		//	TODO:
-
+            return RotateRight(node);
 		// RR -> Left Rotation
-		//if (balance < -1 && Balance(node->right) <= 0)
+		if (balance < -1 && Balance(node->right) <= 0)
 		//	TODO:
+            return RotateRight(node);
 
 		// LR -> Left-Right Rotation
-		//if (balance > 1 && Balance(node->left) < 0)
-		//{
+		if (balance > 1 && Balance(node->left) < 0)
+		{
 		//	TODO:
-		//}
+            node->left = RotateLeft(node->left);
+            return RotateRight(node);
+        }
 
 		// RL -> Right-Left Rotation
-		//if (balance < -1 && Balance(node->right) > 0)
-		//{
+		if (balance < -1 && Balance(node->right) > 0)
+		{
 		//	TODO:
-		//}
+            node->right = RotateRight(node->right);
+            return RotateLeft(node);
+		}
 
 		return node;
 	}
@@ -148,6 +157,29 @@ public:
 		int balance = Balance(node);
 
 		// TODO:
+        if (balance > 1 && Balance(node->left) >= 0)
+        //    TODO:
+            return RotateRight(node);
+        // RR -> Left Rotation
+        if (balance < -1 && Balance(node->right) <= 0)
+        //    TODO:
+            return RotateRight(node);
+
+        // LR -> Left-Right Rotation
+        if (balance > 1 && Balance(node->left) < 0)
+        {
+        //    TODO:
+            Node* temp = RotateLeft(node);
+            return RotateRight(temp);
+        }
+
+        // RL -> Right-Left Rotation
+        if (balance < -1 && Balance(node->right) > 0)
+        {
+        //    TODO:
+            Node* temp = RotateRight(node);
+            return RotateLeft(temp);
+        }
 
 		return node;
 	}
