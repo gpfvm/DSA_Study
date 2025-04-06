@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <iomanip>
 #include <math.h>
 
@@ -35,7 +35,17 @@ int Partition(int arr[], int low, int high, int n)
 	while (true)
 	{
 		// TODO:
-
+        do i +=1;
+        while(arr[i] < pivot);
+        
+        do j -=1;
+        while(arr[j] > pivot);
+        
+        if(i >= j)
+            return j;
+        
+        swap(arr[i],arr[j]);
+        
 		cout << "pivot=" << pivot << ", i=" << i << ", j=" << j << endl;
 		cout << "         ";
 		Print(arr, low, high, n);

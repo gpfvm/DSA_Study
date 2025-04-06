@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "../shared/Queue.h"
 
 using namespace std;
@@ -40,11 +40,25 @@ int main()
 	Queue<int> queues[10];
 
 	int m = GetMax(arr, n); // 가장 큰 자리수를 찾기 위해서
-
+    
 	for (int exp = 1; m / exp > 0; exp *= 10)
 	{
 		// TODO:
-
+        for(int i = 0; i < n; i++)
+            queues[(arr[i] / exp) % 10].Enqueue(arr[i]);
+        
+        int j = 0;
+        
+        for(int i = 0; i < 10; i++)
+        {
+            while(!queues[i].IsEmpty())
+            {
+                arr[j] = queues[i].Front();
+                queues[i].Dequeue();
+                j++;
+            }
+            
+        }
 		Print(arr, n);
 	}
 
