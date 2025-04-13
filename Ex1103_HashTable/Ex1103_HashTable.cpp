@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string> // std::string
 
 using namespace std;
@@ -28,7 +28,11 @@ public:
 	{
 		// TODO:
 
-		size_t index = item.key; // 키를 인덱스로 사용
+		size_t index = HashFunc(item.key); // 키를 인덱스로 사용
+        
+        while(table_[index].key != 0)
+            index++;
+        
 		table_[index] = item;
 	}
 
@@ -36,8 +40,17 @@ public:
 	{
 		// TODO: 못 찾으면 0을 반환
 
-		size_t index = key;
-		return table_[index].value;
+		size_t index = HashFunc(key);
+        
+        for(int i = 0; i < capacity_; i++)
+        {
+            size_t temp = (index +i) % capacity_;
+            if(table_[temp].key == key)
+                return table_[temp].value;
+        }
+       
+        
+        return 0;
 	}
 
 	// 정수 -> 해시값
@@ -45,7 +58,7 @@ public:
 	{
 		// TODO:
 
-		return key;
+        return key %  capacity_;
 	}
 
 	// 문자열을 정수 인덱스(해시값)로 변환
@@ -97,7 +110,7 @@ int main()
 		h.Print();
 
 		cout << "Get 123 " << h.Get(123) << endl;
-		cout << "Get 1211 " << h.Get(1211) << endl;
+		cout << "Get 555 " << h.Get(555) << endl;
 	}
 
 	// 키: std::string, 값: int
