@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cassert>
 
 #include "../shared/Stack.h"
@@ -89,11 +89,42 @@ public:
 	void DepthFirstTraversal(int v) // v는 인덱스
 	{
 		// TODO:
+       
+        if(visited_[v] == false)
+        {
+            visited_[v] = true;
+            cout << vertices_[v].item;
+            for (int i = 0; i < max_vertices_; i++)
+                if(matrix_[i][v] == 1)
+                    DepthFirstTraversal(i);
+        }
+       
 	}
 
 	void IterDFT()
 	{
 		// TODO:
+        ResetVisited();
+        int v = 0;
+        Stack<int> s;
+        s.Push(v);
+        while (!s.IsEmpty())
+        {
+            v = s.Top();
+            s.Pop();
+            if (!visited_[v])
+            {
+                cout << vertices_[v].item << " ";
+                visited_[v] = true;
+                for (int w = n_ - 1; w >= 0; w--)
+                {
+                    if (matrix_[v][w])
+                        s.Push(w);
+                    // cout << endl;
+                }
+            }
+        }
+       
 	}
 
 	void BreadthFirstTraversal()
@@ -158,7 +189,7 @@ int main()
 
 	g.PrintMatrix();
 
-	g.DepthFirstTraversal();
+    g.IterDFT();
 
 	g.BreadthFirstTraversal();
 
