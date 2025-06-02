@@ -87,44 +87,43 @@ public:
 	}
 
 	void DepthFirstTraversal(int v) // v는 인덱스
-	{
-		// TODO:
-       
-        if(visited_[v] == false)
-        {
-            visited_[v] = true;
-            cout << vertices_[v].item;
-            for (int i = 0; i < max_vertices_; i++)
-                if(matrix_[i][v] == 1)
+    {
+        // TODO:
+                    
+        visited_[v] = true;
+        cout << v;
+        for(int i = 0; i < n_; i++)
+            if(matrix_[v][i] == 1 && visited_[i] == false)
                     DepthFirstTraversal(i);
-        }
-       
 	}
 
 	void IterDFT()
 	{
 		// TODO:
-        ResetVisited();
-        int v = 0;
         Stack<int> s;
-        s.Push(v);
-        while (!s.IsEmpty())
+        
+        ResetVisited();
+        
+        visited_[0] = true;
+        s.Push(0);
+        
+        while(!s.IsEmpty())
         {
-            v = s.Top();
+            int v = s.Top();
             s.Pop();
-            if (!visited_[v])
-            {
-                cout << vertices_[v].item << " ";
-                visited_[v] = true;
-                for (int w = n_ - 1; w >= 0; w--)
+            cout << vertices_[v].item << " ";
+            for(int i = n_ - 1; i >= 0; i--)
+                if(matrix_[v][i] == 1 && visited_[i] == false)
                 {
-                    if (matrix_[v][w])
-                        s.Push(w);
-                    // cout << endl;
+                    visited_[i] = true;
+                    s.Push(i);
                 }
-            }
+            cout <<  "stack : ";
+            s.Print();
+            cout << endl;
+                        
+                        
         }
-       
 	}
 
 	void BreadthFirstTraversal()
