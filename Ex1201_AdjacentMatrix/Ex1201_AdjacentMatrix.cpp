@@ -133,8 +133,31 @@ public:
 		Queue<int> q;
 
 		ResetVisited();
-
+        
+    
 		// TODO:
+        
+        visited_[v] = true;
+        q.Enqueue(v);
+        
+        while(!q.IsEmpty())
+        {
+            int v = q.Front();
+            q.Dequeue();
+            cout << vertices_[v].item << " ";
+            for(int i = 0 ; i < n_; i++)
+                if(matrix_[v][i] == 1 && visited_[i] == false)
+                {
+                    visited_[i] = true;
+                    q.Enqueue(i);
+                }
+            
+            cout <<  "Queue : ";
+            q.Print();
+            cout << endl;
+                        
+                        
+        }
 	}
 
 	void ResetVisited()
