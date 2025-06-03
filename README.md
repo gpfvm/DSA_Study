@@ -39,10 +39,14 @@ In this repository, I document my daily progress by implementing and experimenti
 - Improve C++ proficiency
 - Prepare for technical interviews
 
+
+## Certification
+
+https://www.honglab.ai/certificates/hhmfru2tny
+
 ## 💬 Credits
 
 Course created by **Jungmo Hong (홍정모)** at [HongLab](https://www.honglab.ai). All original material belongs to the course author.
 
 ---
-
 Feel free to fork, star, or follow along!
