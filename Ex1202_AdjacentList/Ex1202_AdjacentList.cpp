@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cassert>
 
 #include "../shared/Stack.h"
@@ -92,16 +92,94 @@ public:
 	void DepthFirstTraversal(int v) // v는 인덱스
 	{
 		// TODO:
+        visited_[v] = true;
+        cout << vertices_[v].item;
+        
+        Node* current = list_[v];
+        while (current)
+        {
+            int w = current->vertex;
+            if(visited_[w] == false)
+                DepthFirstTraversal(w);
+            current = current->next;
+        }
+        
 	}
 
 	void IterDFT()
 	{
 		// TODO:
+        Stack<int> s;
+        
+        ResetVisited();
+        
+        visited_[0] = true;
+        s.Push(0);
+        
+        while(!s.IsEmpty())
+        {
+            int v = s.Top();
+            s.Pop();
+            cout << vertices_[v].item << " ";
+            
+            Node* current = list_[v];
+            while(current)
+            {
+                int w = current->vertex;
+                if(visited_[w] == false)
+                {
+                    s.Push(w);
+                    visited_[w] = true;
+                }
+                current = current->next;
+            }
+               
+            cout <<  "stack : ";
+            s.Print();
+            cout << endl;
+                        
+        }
 	}
 
 	void BreadthFirstTraversal()
 	{
 		// TODO:
+        
+        int v = 0; // 0번에서 시작
+
+        Queue<int> q;
+
+        ResetVisited();
+        
+    
+        // TODO:
+        
+        visited_[v] = true;
+        q.Enqueue(v);
+        
+        while(!q.IsEmpty())
+        {
+            int v = q.Front();
+            q.Dequeue();
+            cout << vertices_[v].item << " ";
+            Node* current = list_[v];
+            while(current)
+            {
+                int w = current->vertex;
+                if(visited_[w] == false)
+                {
+                    q.Enqueue(w);
+                    visited_[w] = true;
+                }
+                current = current->next;
+            }
+            
+            cout <<  "Queue : ";
+            q.Print();
+            cout << endl;
+                        
+                        
+        }
 	}
 
 	void ResetVisited()
